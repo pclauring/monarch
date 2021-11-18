@@ -8,7 +8,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { errorHandler } from './middleware/error.middleware';
 import { notFoundHandler } from './middleware/not-found.middleware';
-import { monstersRouter } from './routes/monsters.router';
+import { connectToDatabase } from './services/database.service';
+import { monsterRouter } from './routes/monster.router';
 
 dotenv.config();
 
@@ -21,7 +22,6 @@ if (!process.env.PORT) {
 }
 
 const PORT: number = parseInt(process.env.PORT as string, 10);
-
 const app = express();
 
 /**
@@ -31,15 +31,22 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use('/api/monsters', monstersRouter);
-
-app.use(errorHandler);
-app.use(notFoundHandler);
 
 /**
  * Server Activation
  */
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
+connectToDatabase()
+  .then(() => {
+    app.use('/api/monsters', monsterRouter);
+    app.use(errorHandler);
+    app.use(notFoundHandler);
+
+    app.listen(PORT, () => {
+      console.log(`Server started at http://localhost:${PORT}`);
+    });
+  })
+  .catch((error: Error) => {
+    console.error('Database connection failed', error);
+    process.exit();
+  });
