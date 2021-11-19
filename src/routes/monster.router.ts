@@ -2,6 +2,7 @@
 import express, { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { collections } from '../services/database.service';
+import * as MonsterService from '../services/monster.service';
 import Monster from '../models/monster.model';
 
 // Global Config
@@ -12,9 +13,7 @@ monsterRouter.use(express.json());
 // GET
 monsterRouter.get('/', async (_req: Request, res: Response) => {
   try {
-    const monsters = (await collections.monsters
-      ?.find({})
-      .toArray()) as Monster[];
+    const monsters = (await MonsterService.findAll()) as Monster[];
 
     res.status(200).send(monsters);
   } catch (error) {
@@ -26,8 +25,7 @@ monsterRouter.get('/:id', async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
   try {
-    const query = { _id: new ObjectId(id) };
-    const monster = (await collections.monsters?.findOne(query)) as Monster;
+    const monster = (await MonsterService.find(id)) as Monster;
 
     if (monster) {
       res.status(200).send(monster);
@@ -43,13 +41,15 @@ monsterRouter.get('/:id', async (req: Request, res: Response) => {
 monsterRouter.post('/', async (req: Request, res: Response) => {
   try {
     const newMonster = req.body as Monster;
-    const result = await collections.monsters?.insertOne(newMonster);
+    const result = await MonsterService.create(newMonster);
 
     result
       ? res
           .status(201)
-          .send(`Successfully created a new game with id ${result.insertedId}`)
-      : res.status(500).send('Failed to create a new game.');
+          .send(
+            `Successfully created a new monster with id ${result.insertedId}`
+          )
+      : res.status(500).send('Failed to create a new monster.');
   } catch (error) {
     console.error(error);
     res.status(400).send(error.message);
@@ -61,16 +61,10 @@ monsterRouter.put('/:id', async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
   try {
-    const updatedMonster: Monster = req.body as Monster;
-    const query = { _id: new ObjectId(id) };
-
-    const result = await collections.monsters?.updateOne(query, {
-      $set: updatedMonster,
-    });
-
+    const result = await MonsterService.update(id, req.body);
     result
       ? res.status(200).send(`Successfully updated monster with id ${id}`)
-      : res.status(304).send(`Game with id: ${id} not updated`);
+      : res.status(304).send(`Monster with id: ${id} not updated`);
   } catch (error) {
     console.error(error.message);
     res.status(400).send(error.message);
@@ -82,8 +76,7 @@ monsterRouter.delete('/:id', async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
   try {
-    const query = { _id: new ObjectId(id) };
-    const result = await collections.monsters?.deleteOne(query);
+    const result = await MonsterService.remove(id);
 
     if (result && result.deletedCount) {
       res.status(202).send(`Successfully removed monster with id ${id}`);
