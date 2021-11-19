@@ -40,8 +40,7 @@ monsterRouter.get('/:id', async (req: Request, res: Response) => {
 // POST
 monsterRouter.post('/', async (req: Request, res: Response) => {
   try {
-    const newMonster = req.body as Monster;
-    const result = await MonsterService.create(newMonster);
+    const result = await MonsterService.create(req.body as Monster);
 
     result
       ? res
@@ -61,7 +60,7 @@ monsterRouter.put('/:id', async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
   try {
-    const result = await MonsterService.update(id, req.body);
+    const result = await MonsterService.update(id, req.body as Monster);
     result
       ? res.status(200).send(`Successfully updated monster with id ${id}`)
       : res.status(304).send(`Monster with id: ${id} not updated`);
