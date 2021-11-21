@@ -10,17 +10,7 @@ export const monsterRouter = express.Router();
 
 monsterRouter.use(express.json());
 
-// GET
-monsterRouter.get('/', async (_req: Request, res: Response) => {
-  try {
-    const monsters = (await MonsterService.findAll()) as Monster[];
-
-    res.status(200).send(monsters);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
+//GET Query
 monsterRouter.get('/:id', async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
@@ -29,6 +19,21 @@ monsterRouter.get('/:id', async (req: Request, res: Response) => {
 
     if (monster) {
       res.status(200).send(monster);
+    }
+  } catch (error) {
+    res
+      .status(404)
+      .send(`Unable to find matching document with id: ${req.params.id}`);
+  }
+});
+
+//GET Query
+monsterRouter.get('/', async (req: Request, res: Response) => {
+  try {
+    const monsters = (await MonsterService.query(req.query)) as Monster[];
+
+    if (monsters) {
+      res.status(200).send(monsters);
     }
   } catch (error) {
     res

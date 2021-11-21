@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import Experience from './experience.model';
 
 export default class Monster {
   constructor(
@@ -8,7 +7,11 @@ export default class Monster {
     public ownerId: string,
     public species: string,
     public spriteURL: string,
-    public experiences: Experience[],
+    public attack: number,
+    public defense: number,
+    public health: number,
+    public mistakes: number,
+    public battles: number,
     public id?: ObjectId
   ) {}
 }

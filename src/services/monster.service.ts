@@ -13,6 +13,7 @@ import {
   DeleteResult,
   Document,
 } from 'mongodb';
+import { ParsedQs } from 'qs';
 
 /**
  * Service Methods
@@ -24,6 +25,13 @@ export const findAll = async (): Promise<Document[] | undefined> =>
 export const find = async (id: string): Promise<Monster> => {
   const query = { _id: new ObjectId(id) };
   const monster = (await collections.monsters?.findOne(query)) as Monster;
+  return monster;
+};
+
+export const query = async (
+  query: ParsedQs
+): Promise<Document[] | undefined> => {
+  const monster = await collections.monsters?.find(query).toArray();
   return monster;
 };
 
