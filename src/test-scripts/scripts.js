@@ -1,12 +1,13 @@
 //Sample data
 const monster = {
-  name: 'monster',
-  level: 1,
-  ownerId: 'exampleId',
-  species: 'cat',
-  spriteURL: 'cat.jpeg',
-  attack: 1,
-  defense: 1,
-  health: 1,
+  name: 'Egg',
+  level: 0,
+  ownerId: 'user_id',
+  species: 'GUID',
+  spriteURL: 'GUID.png',
+  lifeEvents: [
+    { type: 'Hatch', timeStamp: new Date() },
+    { type: 'Death', timeStamp: new Date() },
+  ],
 };
 console.log(JSON.stringify(monster));

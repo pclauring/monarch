@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import LifeEvent from './lifeEvent.model';
 
 export default class Monster {
   constructor(
@@ -7,11 +8,7 @@ export default class Monster {
     public ownerId: string,
     public species: string,
     public spriteURL: string,
-    public attack: number,
-    public defense: number,
-    public health: number,
-    public mistakes: number,
-    public battles: number,
+    public lifeEvents: LifeEvent[],
     public id?: ObjectId
   ) {}
 }
