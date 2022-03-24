@@ -4,55 +4,68 @@
  * Data Model Interfaces
  */
 
-import Monster from '../models/monster.model';
-import { collections } from '../services/database.service';
+//import Monster from '../models/monster.model';
+//import { collections } from '../services/database.service';
 import {
   ObjectId,
-  InsertOneResult,
-  UpdateResult,
   DeleteResult,
   Document,
 } from 'mongodb';
 import { ParsedQs } from 'qs';
 
+import { IMonster } from "../types/monster"
+import Monster from '../models/monster';
+
 /**
  * Service Methods
  */
 
-export const findAll = async (): Promise<Document[] | undefined> =>
-  collections.monsters?.find({}).toArray();
+export const findAll = async (): Promise<Document[] | undefined> => {
+  const allMonsters: IMonster[] = await Monster.find()
+  return allMonsters;
+};
 
-export const find = async (id: string): Promise<Monster> => {
+export const find = async (id: string): Promise<IMonster> => {
+
   const query = { _id: new ObjectId(id) };
-  const monster = (await collections.monsters?.findOne(query)) as Monster;
+
+  const monster = (await Monster.findOne(query)) as IMonster;
   return monster;
 };
 
 export const query = async (
   query: ParsedQs
 ): Promise<Document[] | undefined> => {
-  const monster = await collections.monsters?.find(query).toArray();
-  return monster;
+  const queryMonsters: IMonster[] = await Monster.find(query);
+  return queryMonsters;
 };
 
 export const create = async (
-  newMonster: Monster
-): Promise<InsertOneResult<Document> | undefined> => {
-  return collections.monsters?.insertOne(newMonster);
+  newMonster: IMonster
+): Promise<IMonster | undefined> => {
+  const monster: IMonster = new Monster({
+    name: newMonster.name,
+    description: newMonster.description,
+    status: newMonster.status
+  })
+  newMonster = await monster.save()
+  return newMonster;
 };
 
 export const update = async (
   id: string,
-  monster: Monster
-): Promise<UpdateResult | undefined> => {
-  const query = { _id: new ObjectId(id) };
+  monster: IMonster
+): Promise<IMonster | undefined | null> => {
+  const query = { _id: id };
 
-  return await collections.monsters?.updateOne(query, {
-    $set: monster,
-  });
+  const updateMonster: IMonster | undefined | null = await Monster.findByIdAndUpdate(
+      query,
+      monster
+  )
+
+  return updateMonster;
 };
 
-export const remove = async (id: string): Promise<DeleteResult | undefined> => {
-  const query = { _id: new ObjectId(id) };
-  return await collections.monsters?.deleteOne(query);
+export const remove = async (id: string): Promise<DeleteResult | null | undefined> => {
+  return Monster.findByIdAndRemove(id);
 };
