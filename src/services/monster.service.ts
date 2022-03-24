@@ -66,6 +66,6 @@ export const update = async (
   return updateMonster;
 };
 
-export const remove = async (id: string): Promise<DeleteResult | null | undefined> => {
+export const remove = async (id: string): Promise<IMonster | null | undefined> => {
   return Monster.findByIdAndRemove(id);
 };
