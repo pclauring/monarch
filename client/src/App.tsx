@@ -1,9 +1,24 @@
-import React from 'react';
+import React , {useEffect, useState } from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import { getMonsters } from './features/monster/monsterAPI'
 
 function App() {
+  const [monsters, setMonsters] = useState<IMonster[]>([])
+
+  useEffect(() => {
+    fetchMonsters()
+  }, [])
+
+  const fetchMonsters = (): void => {
+    getMonsters()
+    .then(({ data }: IMonster[] | any) => {
+      setMonsters(data)
+    })
+    .catch((err: Error) => console.log(err))
+  }
+
   return (
     <div className="App">
       <header className="App-header">
