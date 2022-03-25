@@ -40,7 +40,7 @@ export const postMonster = async (req: Request, res: Response) => {
       ? res
           .status(201)
           .send(
-            `Successfully created a new monster with id ${result._id}`
+            [result]
           )
       : res.status(500).send('Failed to create a new monster.');
   } catch (error) {
