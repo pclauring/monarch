@@ -6,14 +6,10 @@
 
 //import Monster from '../models/monster.model';
 //import { collections } from '../services/database.service';
-import {
-  ObjectId,
-  DeleteResult,
-  Document,
-} from 'mongodb';
+import { ObjectId, DeleteResult, Document } from 'mongodb';
 import { ParsedQs } from 'qs';
 
-import { IMonster } from "../types/monster"
+import { IMonster } from '../types/monster';
 import Monster from '../models/monster';
 
 /**
@@ -21,12 +17,11 @@ import Monster from '../models/monster';
  */
 
 export const findAll = async (): Promise<Document[] | undefined> => {
-  const allMonsters: IMonster[] = await Monster.find()
+  const allMonsters: IMonster[] = await Monster.find();
   return allMonsters;
 };
 
 export const find = async (id: string): Promise<IMonster> => {
-
   const query = { _id: new ObjectId(id) };
 
   const monster = (await Monster.findOne(query)) as IMonster;
@@ -46,9 +41,8 @@ export const create = async (
   const monster: IMonster = new Monster({
     name: newMonster.name,
     description: newMonster.description,
-    status: newMonster.status
-  })
-  newMonster = await monster.save()
+  });
+  newMonster = await monster.save();
   return newMonster;
 };
 
@@ -58,14 +52,14 @@ export const update = async (
 ): Promise<IMonster | undefined | null> => {
   const query = { _id: id };
 
-  const updateMonster: IMonster | undefined | null = await Monster.findByIdAndUpdate(
-      query,
-      monster
-  )
+  const updateMonster: IMonster | undefined | null =
+    await Monster.findByIdAndUpdate(query, monster);
 
   return updateMonster;
 };
 
-export const remove = async (id: string): Promise<IMonster | null | undefined> => {
+export const remove = async (
+  id: string
+): Promise<IMonster | null | undefined> => {
   return Monster.findByIdAndRemove(id);
 };

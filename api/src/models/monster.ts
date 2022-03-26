@@ -1,5 +1,5 @@
-import { IMonster } from "./../types/monster"
-import { model, Schema } from "mongoose"
+import { IMonster, EventType } from './../types/monster';
+import { model, Schema } from 'mongoose';
 
 const monsterSchema: Schema = new Schema(
   {
@@ -12,13 +12,17 @@ const monsterSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-
-    status: {
-      type: Boolean,
-      required: true,
-    },
+    events: [
+      new Schema(
+        {
+          type: String,
+          enum: ['Training', 'Feeding', 'Mistake'],
+        },
+        { timestamps: true }
+      ),
+    ],
   },
   { timestamps: true }
-)
+);
 
-export default model<IMonster>("Monster", monsterSchema)
+export default model<IMonster>('Monster', monsterSchema);
