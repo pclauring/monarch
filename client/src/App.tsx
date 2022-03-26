@@ -24,8 +24,8 @@ function App() {
   const handleCreateMonster = (e: React.FormEvent, formData: IMonster): void => {
     e.preventDefault()
     createMonster(formData)
-      .then(({ data }: IMonster[] | any) => {
-        if (data[0]._id === undefined) {
+      .then(({ data }: IMonster | any) => {
+        if (data._id === undefined) {
           throw new Error("Error! Monster not created")
         }
         setMonsters(monsters.concat(data))

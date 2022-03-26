@@ -11,6 +11,6 @@ interface IMonster {
     monster: IMonster
   }
   
-  type ApiDataType = {
-    data: IMonster[]
+  type ApiDataType<TData> = {
+    data: TData
   }

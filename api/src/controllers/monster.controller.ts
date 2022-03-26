@@ -34,14 +34,14 @@ export const getMonsterByQueryParams = async (req: Request, res: Response) => {
 
 export const postMonster = async (req: Request, res: Response) => {
   try {
-    const result = await MonsterService.create(req.body as IMonster);
+    const monster = await MonsterService.create(req.body as IMonster);
 
-    result
+    monster
       ? res
-          .status(201)
-          .send(
-            [result]
-          )
+        .status(201)
+        .send(
+          monster
+        )
       : res.status(500).send('Failed to create a new monster.');
   } catch (error) {
     console.error(error);
@@ -51,15 +51,13 @@ export const postMonster = async (req: Request, res: Response) => {
 
 export const putMonster = async (req: Request, res: Response) => {
   const id = req?.params?.id;
-  console.error(id);
+
   try {
-    const result = await MonsterService.update(id, req.body as IMonster);
-    console.error(result);
-    result
+    const monster = await MonsterService.update(id, req.body as IMonster);
+    monster
       ? res.status(200).send(`Successfully updated monster with id ${id}`)
       : res.status(304).send(`Monster with id: ${id} not updated`);
   } catch (error) {
-    console.error(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -69,12 +67,10 @@ export const deleteMonster = async (req: Request, res: Response) => {
 
   try {
     const result = await MonsterService.remove(id);
-    console.log(result);
     result
       ? res.status(202).send(`Successfully removed monster with id ${id}`)
       : res.status(400).send(`Monster with id ${id} does not exist`);
   } catch (error) {
-    console.error(error.message);
     res.status(400).send(error.message);
   }
 };
