@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 //import { Counter } from './features/counter/Counter';
 import "./App.css";
-import { getMonsters, createMonster } from "./features/monster/monsterAPI";
+import {
+  getMonsters,
+  createMonster,
+  updateMonster,
+  deleteMonster,
+} from "./features/monster/monsterAPI";
 import Monster from "./features/monster/Monster";
 import CreateMonster from "./features/monster/CreateMonster";
 
@@ -36,13 +41,42 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const handleUpdateMonster = (monster: IMonster): void => {
+    updateMonster(monster)
+      .then(({ status, data }) => {
+        if (status !== 200) {
+          throw new Error("Error! Todo not updated");
+        }
+        //setMonsters(data.monsters)
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteMonster = (_id: string): void => {
+    deleteMonster(_id)
+      .then(({ status, data }) => {
+        if (status !== 200) {
+          throw new Error("Error! Monster not deleted");
+        }
+        //setMonsters(data.monsters);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {/* <Counter /> */}
         {monsters.map((monster) => {
-          return <Monster key={monster._id} monster={monster} />;
+          return (
+            <Monster
+              key={monster._id}
+              monster={monster}
+              updateMonster={handleUpdateMonster}
+              deleteMonster={handleDeleteMonster}
+            />
+          );
         })}
         <CreateMonster saveMonster={handleCreateMonster} />
       </header>
