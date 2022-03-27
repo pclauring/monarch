@@ -6,11 +6,11 @@
 
 //import Monster from '../models/monster.model';
 //import { collections } from '../services/database.service';
-import { ObjectId, DeleteResult, Document } from 'mongodb';
-import { ParsedQs } from 'qs';
+import { ObjectId, DeleteResult, Document } from "mongodb";
+import { ParsedQs } from "qs";
 
-import { IMonster } from '../types/monster';
-import Monster from '../models/monster';
+import { IMonster } from "../types/monster";
+import Monster from "../models/monster";
 
 /**
  * Service Methods

@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import * as MonsterService from '../services/monster.service';
-import { IMonster } from '../types/monster';
+import { Request, Response } from "express";
+import * as MonsterService from "../services/monster.service";
+import { IMonster } from "../types/monster";
 
 export const getMonsterById = async (req: Request, res: Response) => {
   const id = req?.params?.id;
@@ -37,12 +37,8 @@ export const postMonster = async (req: Request, res: Response) => {
     const monster = await MonsterService.create(req.body as IMonster);
 
     monster
-      ? res
-        .status(201)
-        .send(
-          monster
-        )
-      : res.status(500).send('Failed to create a new monster.');
+      ? res.status(201).send(monster)
+      : res.status(500).send("Failed to create a new monster.");
   } catch (error) {
     console.error(error);
     res.status(400).send(error.message);

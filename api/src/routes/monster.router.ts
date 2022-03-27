@@ -1,26 +1,26 @@
 // External Dependencies
-import express, { Request, Response } from 'express';
-import * as MonsterService from '../services/monster.service';
-import Monster from '../models/monster.model';
+import express, { Request, Response } from "express";
+import * as MonsterService from "../services/monster.service";
+import Monster from "../models/monster.model";
 import {
   getMonsterById,
   getMonsterByQueryParams,
   postMonster,
   putMonster,
   deleteMonster,
-} from '../controllers/monster.controller';
+} from "../controllers/monster.controller";
 
 // Global Config
 export const monsterRouter = express.Router();
 
 monsterRouter.use(express.json());
 
-monsterRouter.get('/:id', getMonsterById);
+monsterRouter.get("/:id", getMonsterById);
 
-monsterRouter.get('/', getMonsterByQueryParams);
+monsterRouter.get("/", getMonsterByQueryParams);
 
-monsterRouter.post('/', postMonster);
+monsterRouter.post("/", postMonster);
 
-monsterRouter.put('/:id', putMonster);
+monsterRouter.put("/:id", putMonster);
 
-monsterRouter.delete('/:id', deleteMonster);
+monsterRouter.delete("/:id", deleteMonster);

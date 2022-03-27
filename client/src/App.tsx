@@ -1,48 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
 //import { Counter } from './features/counter/Counter';
-import './App.css';
-import { getMonsters, createMonster } from './features/monster/monsterAPI'
-import Monster from './features/monster/Monster';
-import CreateMonster from './features/monster/CreateMonster';
+import "./App.css";
+import { getMonsters, createMonster } from "./features/monster/monsterAPI";
+import Monster from "./features/monster/Monster";
+import CreateMonster from "./features/monster/CreateMonster";
 
 function App() {
-  const [monsters, setMonsters] = useState<IMonster[]>([])
+  const [monsters, setMonsters] = useState<IMonster[]>([]);
 
   useEffect(() => {
-    fetchMonsters()
-  }, [])
+    fetchMonsters();
+  }, []);
 
   const fetchMonsters = (): void => {
     getMonsters()
       .then(({ data }: IMonster[] | any) => {
-        setMonsters(data)
+        setMonsters(data);
       })
-      .catch((err: Error) => console.log(err))
-  }
+      .catch((err: Error) => console.log(err));
+  };
 
-  const handleCreateMonster = (e: React.FormEvent, formData: IMonster): void => {
-    e.preventDefault()
+  const handleCreateMonster = (
+    e: React.FormEvent,
+    formData: IMonster
+  ): void => {
+    e.preventDefault();
     createMonster(formData)
       .then(({ data }: IMonster | any) => {
         if (data._id === undefined) {
-          throw new Error("Error! Monster not created")
+          throw new Error("Error! Monster not created");
         }
-        setMonsters(monsters.concat(data))
+        setMonsters(monsters.concat(data));
       })
-      .catch(err => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {/* <Counter /> */}
-          {monsters.map(monster => {
-            return (
-              <Monster key={monster._id} monster={monster} />
-            )
-          })}
+        {monsters.map((monster) => {
+          return <Monster key={monster._id} monster={monster} />;
+        })}
         <CreateMonster saveMonster={handleCreateMonster} />
       </header>
     </div>
