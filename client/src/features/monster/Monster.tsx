@@ -15,7 +15,7 @@ const Monster: React.FC<Props> = ({
         <div>{monster._id}</div>
         <div>{monster.name}</div>
         <div>{monster.description}</div>
-        <button onClick={() => updateMonster(monster)}>Complete</button>
+        <button onClick={() => updateMonster(monster)}>Add event</button>
         <button onClick={() => deleteMonster(monster._id)}>Delete</button>
       </div>
     </div>

@@ -51,7 +51,7 @@ export const putMonster = async (req: Request, res: Response) => {
   try {
     const monster = await MonsterService.update(id, req.body as IMonster);
     monster
-      ? res.status(200).send(`Successfully updated monster with id ${id}`)
+      ? res.status(200).send(monster)
       : res.status(304).send(`Monster with id: ${id} not updated`);
   } catch (error) {
     res.status(400).send(error.message);

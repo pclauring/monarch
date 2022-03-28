@@ -45,7 +45,7 @@ function App() {
     updateMonster(monster)
       .then(({ status, data }) => {
         if (status !== 200) {
-          throw new Error("Error! Todo not updated");
+          throw new Error("Error! Monster not updated");
         }
         //setMonsters(data.monsters)
       })
@@ -55,7 +55,7 @@ function App() {
   const handleDeleteMonster = (_id: string): void => {
     deleteMonster(_id)
       .then(({ status, data }) => {
-        if (status !== 200) {
+        if (status !== 202) {
           throw new Error("Error! Monster not deleted");
         }
         //setMonsters(data.monsters);

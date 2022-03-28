@@ -42,12 +42,14 @@ export const updateMonster = async (
   monsterToUpdate: IMonster
 ): Promise<AxiosResponse<ApiDataType<IMonster>>> => {
   try {
-    const monster: Pick<IMonster, "name"> = {
-      name: monsterToUpdate.name,
+    const monster: Pick<IMonster, "events"> = {
+      events: monsterToUpdate.events
+        ? monsterToUpdate.events.concat([{ type: "Training" }])
+        : [{ type: "Hatch" }],
     };
     const updatedMonster: AxiosResponse<ApiDataType<IMonster>> =
       await axios.put(
-        `${baseUrl}'/api/monsters/'${monsterToUpdate._id}`,
+        `${baseUrl}/api/monsters/${monsterToUpdate._id}`,
         monster
       );
     return updatedMonster;
