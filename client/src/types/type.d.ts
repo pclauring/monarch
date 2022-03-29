@@ -1,14 +1,22 @@
 interface IMonster {
   _id: string;
   name: string;
-  description: string;
-  events?: MonsterEvent[];
+  spriteURL: string;
+  events?: IEvent[];
+  traits?: ITrait[];
   createdAt?: string;
   updatedAt?: string;
 }
 
-interface MonsterEvent {
+interface IEvent {
   type: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ITrait {
+  type: string;
+  value: number;
 }
 
 interface MonsterProps {

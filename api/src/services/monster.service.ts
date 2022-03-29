@@ -9,7 +9,13 @@
 import { ObjectId, DeleteResult, Document } from "mongodb";
 import { ParsedQs } from "qs";
 
-import { IMonster } from "../types/monster";
+import {
+  IMonster,
+  IEvent,
+  ITrait,
+  TraitType,
+  EventType,
+} from "../types/monster";
 import Monster from "../models/monster";
 
 /**
@@ -40,7 +46,16 @@ export const create = async (
 ): Promise<IMonster | undefined> => {
   const monster: IMonster = new Monster({
     name: newMonster.name,
-    description: newMonster.description,
+    spriteURL: "assets/sprites/egg.png",
+    traits: [
+      { type: TraitType.Health, value: 0 },
+      { type: TraitType.Defense, value: 0 },
+      { type: TraitType.Power, value: 0 },
+      { type: TraitType.Intellegence, value: 0 },
+      { type: TraitType.Speed, value: 0 },
+      { type: TraitType.Skill, value: 0 },
+    ],
+    events: [{ type: EventType.Created }],
   });
   newMonster = await monster.save();
   return newMonster;

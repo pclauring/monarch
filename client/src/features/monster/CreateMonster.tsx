@@ -21,10 +21,10 @@ const CreateMonster: React.FC<Props> = ({ saveMonster }) => {
           <label htmlFor="name">Name</label>
           <input onChange={handleForm} type="text" id="name" />
         </div>
-        <div>
+        {/* <div>
           <label htmlFor="description">Description</label>
           <input onChange={handleForm} type="text" id="description" />
-        </div>
+        </div> */}
       </div>
       <button disabled={formData === undefined ? true : false}>
         Create Monster

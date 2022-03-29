@@ -22,14 +22,15 @@ export const createMonster = async (
   formData: IMonster
 ): Promise<AxiosResponse<IMonster>> => {
   try {
-    const monster: Omit<IMonster, "_id"> = {
+    //Omit
+    const monster: Pick<IMonster, "name"> = {
       name: formData.name,
-      description: formData.description,
     };
     const createMonster: AxiosResponse<IMonster> = await axios.post(
       baseUrl + "/api/monsters",
       monster
     );
+    debugger;
     return createMonster;
   } catch (error) {
     let message = "Unknown Error";
