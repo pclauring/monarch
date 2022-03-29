@@ -62,9 +62,9 @@ export const deleteMonster = async (req: Request, res: Response) => {
   const id = req?.params?.id;
 
   try {
-    const result = await MonsterService.remove(id);
-    result
-      ? res.status(202).send(`Successfully removed monster with id ${id}`)
+    const monster = await MonsterService.remove(id);
+    monster
+      ? res.status(202).send(monster)
       : res.status(400).send(`Monster with id ${id} does not exist`);
   } catch (error) {
     res.status(400).send(error.message);

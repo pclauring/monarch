@@ -43,22 +43,28 @@ function App() {
 
   const handleUpdateMonster = (monster: IMonster): void => {
     updateMonster(monster)
-      .then(({ status, data }) => {
-        if (status !== 200) {
+      .then((response) => {
+        if (response.status !== 200) {
           throw new Error("Error! Monster not updated");
         }
-        //setMonsters(data.monsters)
+        setMonsters(
+          monsters.map((monster) =>
+            monster._id === response.data._id ? { ...response.data } : monster
+          )
+        );
       })
       .catch((err) => console.log(err));
   };
 
   const handleDeleteMonster = (_id: string): void => {
     deleteMonster(_id)
-      .then(({ status, data }) => {
-        if (status !== 202) {
+      .then((response) => {
+        if (response.status !== 202) {
           throw new Error("Error! Monster not deleted");
         }
-        //setMonsters(data.monsters);
+        setMonsters(
+          monsters.filter((monster) => monster._id !== response.data._id)
+        );
       })
       .catch((err) => console.log(err));
   };

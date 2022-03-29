@@ -14,7 +14,3 @@ interface MonsterEvent {
 interface MonsterProps {
   monster: IMonster;
 }
-
-type ApiDataType<TData> = {
-  data: TData;
-};

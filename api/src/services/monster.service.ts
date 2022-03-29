@@ -53,7 +53,9 @@ export const update = async (
   const query = { _id: id };
 
   const updateMonster: IMonster | undefined | null =
-    await Monster.findByIdAndUpdate(query, monster);
+    await Monster.findByIdAndUpdate(query, monster, {
+      returnDocument: "after",
+    });
 
   return updateMonster;
 };

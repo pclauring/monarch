@@ -2,11 +2,9 @@ import axios, { AxiosResponse } from "axios";
 
 const baseUrl: string = "http://localhost:7000";
 
-export const getMonsters = async (): Promise<
-  AxiosResponse<ApiDataType<IMonster[]>>
-> => {
+export const getMonsters = async (): Promise<AxiosResponse<IMonster[]>> => {
   try {
-    const monsters: AxiosResponse<ApiDataType<IMonster[]>> = await axios.get(
+    const monsters: AxiosResponse<IMonster[]> = await axios.get(
       baseUrl + "/api/monsters"
     );
     return monsters;
@@ -22,14 +20,16 @@ export const getMonsters = async (): Promise<
 
 export const createMonster = async (
   formData: IMonster
-): Promise<AxiosResponse<ApiDataType<IMonster>>> => {
+): Promise<AxiosResponse<IMonster>> => {
   try {
     const monster: Omit<IMonster, "_id"> = {
       name: formData.name,
       description: formData.description,
     };
-    const createMonster: AxiosResponse<ApiDataType<IMonster>> =
-      await axios.post(baseUrl + "/api/monsters", monster);
+    const createMonster: AxiosResponse<IMonster> = await axios.post(
+      baseUrl + "/api/monsters",
+      monster
+    );
     return createMonster;
   } catch (error) {
     let message = "Unknown Error";
@@ -40,18 +40,17 @@ export const createMonster = async (
 
 export const updateMonster = async (
   monsterToUpdate: IMonster
-): Promise<AxiosResponse<ApiDataType<IMonster>>> => {
+): Promise<AxiosResponse<IMonster>> => {
   try {
     const monster: Pick<IMonster, "events"> = {
       events: monsterToUpdate.events
         ? monsterToUpdate.events.concat([{ type: "Training" }])
         : [{ type: "Hatch" }],
     };
-    const updatedMonster: AxiosResponse<ApiDataType<IMonster>> =
-      await axios.put(
-        `${baseUrl}/api/monsters/${monsterToUpdate._id}`,
-        monster
-      );
+    const updatedMonster: AxiosResponse<IMonster> = await axios.put(
+      `${baseUrl}/api/monsters/${monsterToUpdate._id}`,
+      monster
+    );
     return updatedMonster;
   } catch (error) {
     let message = "Unknown Error";
@@ -62,9 +61,9 @@ export const updateMonster = async (
 
 export const deleteMonster = async (
   _id: string
-): Promise<AxiosResponse<ApiDataType<IMonster>>> => {
+): Promise<AxiosResponse<IMonster>> => {
   try {
-    const deletedMonster: AxiosResponse<ApiDataType<IMonster>> = await axios
+    const deletedMonster: AxiosResponse<IMonster> = await axios
       .delete(`${baseUrl}/api/monsters/${_id}`)
       .catch();
     return deletedMonster;
