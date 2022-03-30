@@ -1,4 +1,4 @@
-import { IMonster, EventType } from "./../types/monster";
+import { IMonster } from "../types/monster.type";
 import { model, Schema } from "mongoose";
 import { ObjectId } from "mongodb";
 

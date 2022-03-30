@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as MonsterService from "../services/monster.service";
-import { IMonster } from "../types/monster";
+import { IMonster } from "../types/monster.type";
 
 export const getMonsterById = async (req: Request, res: Response) => {
   const id = req?.params?.id;

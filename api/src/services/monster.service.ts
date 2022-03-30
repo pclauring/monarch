@@ -1,21 +1,11 @@
-// src/items/monster.service.ts
-
 /**
  * Data Model Interfaces
  */
 
-//import Monster from '../models/monster.model';
-//import { collections } from '../services/database.service';
-import { ObjectId, DeleteResult, Document } from "mongodb";
+import { ObjectId, Document } from "mongodb";
 import { ParsedQs } from "qs";
-
-import {
-  IMonster,
-  IEvent,
-  ITrait,
-  TraitType,
-  EventType,
-} from "../types/monster";
+import { IMonster } from "../types/monster.type";
+import { TraitType, EventType } from "../types/enums";
 import Monster from "../models/monster";
 
 /**
