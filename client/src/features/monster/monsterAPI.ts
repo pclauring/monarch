@@ -30,7 +30,6 @@ export const createMonster = async (
       baseUrl + "/api/monsters",
       monster
     );
-    debugger;
     return createMonster;
   } catch (error) {
     let message = "Unknown Error";
