@@ -10,6 +10,7 @@ import {
 } from "./features/monster/monsterAPI";
 import Monster from "./features/monster/Monster";
 import CreateMonster from "./features/monster/CreateMonster";
+import PixelPanel from "./features/pixelator/PixelPanel";
 
 function App() {
   const [monsters, setMonsters] = useState<IMonster[]>([]);
@@ -85,6 +86,7 @@ function App() {
           );
         })}
         <CreateMonster saveMonster={handleCreateMonster} />
+        <PixelPanel height={16} width={16} color={"#67808b"} />
       </header>
     </div>
   );

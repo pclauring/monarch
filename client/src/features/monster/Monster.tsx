@@ -1,6 +1,10 @@
 import React from "react";
-type Props = MonsterProps & {
+
+interface MonsterProps {
   monster: IMonster;
+}
+
+type Props = MonsterProps & {
   updateMonster: (monster: IMonster) => void;
   deleteMonster: (_id: string) => void;
 };
