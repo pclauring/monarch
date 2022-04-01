@@ -18,7 +18,10 @@ const Monster: React.FC<Props> = ({
       <div>
         <div>{monster._id}</div>
         <div>{monster.name}</div>
-        <img src={`${process.env.PUBLIC_URL}/assets/${monster.spriteURL}`} />
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/${monster.spriteURL}`}
+          alt={monster.name}
+        />
         {monster.events &&
           monster.events.map((event) => {
             return (

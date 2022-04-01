@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import Row from "./Row";
 import styles from "./PixelPanel.module.css";
 
