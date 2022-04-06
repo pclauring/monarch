@@ -1,93 +1,74 @@
-import React, { useEffect, useState } from "react";
-//import logo from "./logo.svg";
-//import { Counter } from './features/counter/Counter';
 import "./App.css";
-import {
-  getMonsters,
-  createMonster,
-  updateMonster,
-  deleteMonster,
-} from "./features/monster/monsterAPI";
-import Monster from "./features/monster/Monster";
-import CreateMonster from "./features/monster/CreateMonster";
-import PixelPanel from "./features/pixelator/PixelPanel";
+import { Link } from "react-router-dom";
+import MonsterPage from "./features/monster/MonsterPage";
+import { Counter } from "./features/counter/Counter";
+import { Routes, Route, Outlet } from "react-router-dom";
 
 function App() {
-  const [monsters, setMonsters] = useState<IMonster[]>([]);
-
-  useEffect(() => {
-    fetchMonsters();
-  }, []);
-
-  const fetchMonsters = (): void => {
-    getMonsters()
-      .then(({ data }: IMonster[] | any) => {
-        setMonsters(data);
-      })
-      .catch((err: Error) => console.log(err));
-  };
-
-  const handleCreateMonster = (
-    e: React.FormEvent,
-    formData: IMonster
-  ): void => {
-    e.preventDefault();
-    createMonster(formData)
-      .then(({ data }: IMonster | any) => {
-        if (data._id === undefined) {
-          throw new Error("Error! Monster not created");
-        }
-        setMonsters(monsters.concat(data));
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleUpdateMonster = (monster: IMonster): void => {
-    updateMonster(monster)
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error("Error! Monster not updated");
-        }
-        setMonsters(
-          monsters.map((monster) =>
-            monster._id === response.data._id ? { ...response.data } : monster
-          )
-        );
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleDeleteMonster = (_id: string): void => {
-    deleteMonster(_id)
-      .then((response) => {
-        if (response.status !== 202) {
-          throw new Error("Error! Monster not deleted");
-        }
-        setMonsters(
-          monsters.filter((monster) => monster._id !== response.data._id)
-        );
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <Counter /> */}
-        {monsters.map((monster) => {
-          return (
-            <Monster
-              key={monster._id}
-              monster={monster}
-              updateMonster={handleUpdateMonster}
-              deleteMonster={handleDeleteMonster}
-            />
-          );
-        })}
-        <CreateMonster saveMonster={handleCreateMonster} />
-        <PixelPanel height={16} width={16} color={"#67808b"} />
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="counter" element={<Counter />} />
+          <Route path="monster" element={<MonsterPage />} />
+          {/* Using path="*"" means "match anything", so this route
+                acts like a catch-all for URLs that we don't have explicit
+                routes for. */}
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+      </Routes>
+    </div>
+  );
+}
+
+function Layout() {
+  return (
+    <div>
+      {/* A "layout route" is a good place to put markup you want to
+          share across all the pages on your site, like navigation. */}
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/monster">Monster</Link>
+          </li>
+          <li>
+            <Link to="/counter">Counter</Link>
+          </li>
+          <li>
+            <Link to="/nothing-here">Nothing Here</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <hr />
+
+      {/* An <Outlet> renders whatever child route is currently active,
+          so you can think about this <Outlet> as a placeholder for
+          the child routes we defined above. */}
+      <Outlet />
+    </div>
+  );
+}
+
+function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+    </div>
+  );
+}
+
+function NoMatch() {
+  return (
+    <div>
+      <h2>Nothing to see here!</h2>
+      <p>
+        <Link to="/">Go to the home page</Link>
+      </p>
     </div>
   );
 }
