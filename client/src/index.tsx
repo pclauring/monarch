@@ -6,12 +6,15 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
+import Auth0ProviderWithHistory from "./features/auth0/Auth0ProviderWithHistory";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <Auth0ProviderWithHistory>
+          <App />
+        </Auth0ProviderWithHistory>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

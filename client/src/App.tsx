@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import MonsterPage from "./features/monster/MonsterPage";
 import { Counter } from "./features/counter/Counter";
 import { Routes, Route, Outlet } from "react-router-dom";
+import LoginButton from "./features/auth0/LoginButton";
+import LogoutButton from "./features/auth0/LogoutButton";
+import Profile from "./features/auth0/Profile";
 
 function App() {
   return (
@@ -58,6 +61,9 @@ function Home() {
   return (
     <div>
       <h2>Home</h2>
+      <LoginButton />
+      <LogoutButton />
+      <Profile />
     </div>
   );
 }
