@@ -18,6 +18,7 @@ const Monster: React.FC<Props> = ({
       <div>
         <div>{monster._id}</div>
         <div>{monster.name}</div>
+        <div>{monster.ownerId}</div>
         <img
           src={`${process.env.PUBLIC_URL}/assets/${monster.spriteURL}`}
           alt={monster.name}

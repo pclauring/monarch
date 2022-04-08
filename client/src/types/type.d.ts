@@ -2,6 +2,7 @@ interface IMonster {
   _id: string;
   name: string;
   spriteURL: string;
+  ownerId: string;
   events?: IEvent[];
   traits?: ITrait[];
   createdAt?: string;

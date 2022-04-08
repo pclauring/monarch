@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useAuth0, User } from "@auth0/auth0-react";
 
 type Props = {
   saveMonster: (e: React.FormEvent, formData: IMonster | any) => void;
 };
 
 const CreateMonster: React.FC<Props> = ({ saveMonster }) => {
-  const [formData, setFormData] = useState<IMonster | {}>();
+  const { user } = useAuth0();
+
+  const [formData, setFormData] = useState<IMonster | {}>({
+    ownerId: user?.sub,
+  });
 
   const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
     setFormData({

@@ -22,9 +22,9 @@ export const createMonster = async (
   formData: IMonster
 ): Promise<AxiosResponse<IMonster>> => {
   try {
-    //Omit
-    const monster: Pick<IMonster, "name"> = {
+    const monster: Partial<IMonster> = {
       name: formData.name,
+      ownerId: formData.ownerId,
     };
     const createMonster: AxiosResponse<IMonster> = await axios.post(
       baseUrl + "/api/monsters",

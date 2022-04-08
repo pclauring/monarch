@@ -36,6 +36,7 @@ export const create = async (
 ): Promise<IMonster | undefined> => {
   const monster: IMonster = new Monster({
     name: newMonster.name,
+    ownerId: newMonster.ownerId,
     spriteURL: "sprites/egg.png",
     traits: [
       { type: TraitType.Health, value: 0 },

@@ -12,7 +12,7 @@ export interface IEvent {
 
 export interface IMonster extends Document {
   name: string;
-  // ownerId: string;
+  ownerId: string;
   spriteURL: string;
   traits: ITrait[];
   events: IEvent[];

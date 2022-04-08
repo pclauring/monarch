@@ -30,10 +30,10 @@ const monsterSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    // ownerId: {
-    //   type: ObjectId,
-    //   required: true,
-    // },
+    ownerId: {
+      type: String,
+      required: true,
+    },
     traits: [traitSchema],
     events: [eventSchema],
   },
