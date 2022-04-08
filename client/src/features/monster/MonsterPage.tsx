@@ -47,7 +47,7 @@ function MonsterPage() {
         }
         setMonsters(
           monsters.map((monster) =>
-            monster._id === response.data._id ? { ...response.data } : monster
+            monster._id === response.data._id ? response.data : monster
           )
         );
       })

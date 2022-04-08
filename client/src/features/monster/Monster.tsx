@@ -26,8 +26,11 @@ const Monster: React.FC<Props> = ({
         {monster.events &&
           monster.events.map((event) => {
             return (
-              <div key={event.createdAt}>
-                {event.type}: {event.createdAt}
+              <div key={event._id}>
+                <div>
+                  {event.type}: {event.createdAt}
+                </div>
+                <div>Id: {event._id}</div>
               </div>
             );
           })}
