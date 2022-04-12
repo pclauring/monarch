@@ -3,21 +3,24 @@ import { Link } from "react-router-dom";
 import MonsterPage from "./features/monster/MonsterPage";
 import { Counter } from "./features/counter/Counter";
 import { Routes, Route, Outlet } from "react-router-dom";
-import LoginButton from "./features/auth0/LoginButton";
-import LogoutButton from "./features/auth0/LogoutButton";
 import Profile from "./features/auth0/Profile";
 import ProtectedRoute from "./features/auth0/ProtectedRoute";
+import AuthenticationButton from "./features/auth0/AuthenticationButton";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Welcome />} />
           <Route path="counter" element={<Counter />} />
           <Route
             path="monster"
             element={<ProtectedRoute component={MonsterPage} />}
+          />
+          <Route
+            path="profile"
+            element={<ProtectedRoute component={ProfilePage} />}
           />
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
@@ -37,10 +40,16 @@ function Layout() {
       <nav>
         <ul>
           <li>
+            <AuthenticationButton />
+          </li>
+          <li>
             <Link to="/">Home</Link>
           </li>
           <li>
             <Link to="/monster">Monster</Link>
+          </li>
+          <li>
+            <Link to="/Profile">Profile</Link>
           </li>
           <li>
             <Link to="/counter">Counter</Link>
@@ -61,12 +70,18 @@ function Layout() {
   );
 }
 
-function Home() {
+function Welcome() {
   return (
     <div>
-      <h2>Home</h2>
-      <LoginButton />
-      <LogoutButton />
+      <h2>Welcome</h2>
+    </div>
+  );
+}
+
+function ProfilePage() {
+  return (
+    <div>
+      <h2>Profile</h2>
       <Profile />
     </div>
   );
