@@ -6,6 +6,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import LoginButton from "./features/auth0/LoginButton";
 import LogoutButton from "./features/auth0/LogoutButton";
 import Profile from "./features/auth0/Profile";
+import ProtectedRoute from "./features/auth0/ProtectedRoute";
 
 function App() {
   return (
@@ -14,7 +15,10 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="counter" element={<Counter />} />
-          <Route path="monster" element={<MonsterPage />} />
+          <Route
+            path="monster"
+            element={<ProtectedRoute component={MonsterPage} />}
+          />
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
