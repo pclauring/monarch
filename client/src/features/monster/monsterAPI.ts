@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { getApiToken } from "../../utils/getAuthToken";
 
 const baseUrl: string = "http://localhost:7000";
 
@@ -22,13 +23,19 @@ export const createMonster = async (
   formData: IMonster
 ): Promise<AxiosResponse<IMonster>> => {
   try {
+    const token = await getApiToken();
     const monster: Partial<IMonster> = {
       name: formData.name,
       ownerId: formData.ownerId,
     };
     const createMonster: AxiosResponse<IMonster> = await axios.post(
       baseUrl + "/api/monsters",
-      monster
+      monster,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return createMonster;
   } catch (error) {
@@ -63,8 +70,13 @@ export const deleteMonster = async (
   _id: string
 ): Promise<AxiosResponse<IMonster>> => {
   try {
+    const token = await getApiToken();
     const deletedMonster: AxiosResponse<IMonster> = await axios
-      .delete(`${baseUrl}/api/monsters/${_id}`)
+      .delete(`${baseUrl}/api/monsters/${_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .catch();
     return deletedMonster;
   } catch (error) {
