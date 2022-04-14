@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth0, User } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type Props = {
   saveMonster: (e: React.FormEvent, formData: IMonster | any) => void;
