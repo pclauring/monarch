@@ -54,9 +54,6 @@ function Layout() {
           <li>
             <Link to="/counter">Counter</Link>
           </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
         </ul>
       </nav>
 
