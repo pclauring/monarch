@@ -8,17 +8,24 @@ import {
 import Monster from "./Monster";
 import CreateMonster from "./CreateMonster";
 import PixelPanel from "../pixelator/PixelPanel";
+import { MonsterService } from "../../services/MonsterService";
 
 function MonsterPage() {
   const [monsters, setMonsters] = useState<IMonster[]>([]);
+  const baseUrl: string = "http://localhost:7000";
+  const monsterService = new MonsterService(
+    baseUrl,
+    process.env.REACT_APP_AUTH0_AUDIENCE
+  );
 
   useEffect(() => {
     fetchMonsters();
   }, []);
 
   const fetchMonsters = (): void => {
-    getMonsters()
-      .then(({ data }: IMonster[] | any) => {
+    monsterService
+      .getMonster()
+      .then((data: IMonster[] | any) => {
         setMonsters(data);
       })
       .catch((err: Error) => console.log(err));
