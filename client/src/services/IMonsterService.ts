@@ -1,7 +1,7 @@
+import { AxiosResponse } from "axios";
 export interface IMonsterService {
-  getMonster(): Promise<IMonster[]>;
-  //   closeLobby(code: string): Promise<Lobby>;
-  //   createLobby(): Promise<Lobby>;
-  //   sendChat(message: ChatMessage): Promise<boolean>;
-  //   connectToLobbyHub(handlers: LobbyEventHandlers): void;
+  getMonster(): Promise<AxiosResponse<IMonster[]>>;
+  createMonster(monster: IMonster): Promise<AxiosResponse<IMonster>>;
+  deleteMonster(_id: string): Promise<AxiosResponse<IMonster>>;
+  addTraining(monster: IMonster): Promise<AxiosResponse<IMonster>>;
 }

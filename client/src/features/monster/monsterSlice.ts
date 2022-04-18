@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import { getMonsters } from "./monsterAPI";
+import { MonsterService } from "../../services/MonsterService";
 
 type Status = "idle" | "loading" | "failed";
 
@@ -14,6 +15,13 @@ const initialState: MonsterState = {
   status: "idle",
 };
 
+//Init Service
+const baseUrl: string = "http://localhost:7000";
+const monsterService = new MonsterService(
+  baseUrl,
+  process.env.REACT_APP_AUTH0_AUDIENCE
+);
+
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -22,9 +30,9 @@ const initialState: MonsterState = {
 export const getMonstersAsync = createAsyncThunk(
   "monster/getMonsters",
   async () => {
-    const response = await getMonsters();
+    const response = await monsterService.getMonster();
     // The value we return becomes the `fulfilled` action payload
-    return response.data;
+    return response;
   }
 );
 
@@ -57,7 +65,7 @@ export const monsterSlice = createSlice({
       })
       .addCase(getMonstersAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.monsters = action.payload;
+        state.monsters = action.payload.data;
       });
   },
 });

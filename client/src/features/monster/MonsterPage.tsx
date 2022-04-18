@@ -25,7 +25,7 @@ function MonsterPage() {
   const fetchMonsters = (): void => {
     monsterService
       .getMonster()
-      .then((data: IMonster[] | any) => {
+      .then(({ data }: IMonster[] | any) => {
         setMonsters(data);
       })
       .catch((err: Error) => console.log(err));
@@ -36,7 +36,8 @@ function MonsterPage() {
     formData: IMonster
   ): void => {
     e.preventDefault();
-    createMonster(formData)
+    monsterService
+      .createMonster(formData)
       .then(({ data }: IMonster | any) => {
         if (data._id === undefined) {
           throw new Error("Error! Monster not created");
@@ -46,8 +47,9 @@ function MonsterPage() {
       .catch((err) => console.log(err));
   };
 
-  const handleUpdateMonster = (monster: IMonster): void => {
-    updateMonster(monster)
+  const handleAddTraining = (monster: IMonster): void => {
+    monsterService
+      .addTraining(monster)
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("Error! Monster not updated");
@@ -62,7 +64,8 @@ function MonsterPage() {
   };
 
   const handleDeleteMonster = (_id: string): void => {
-    deleteMonster(_id)
+    monsterService
+      .deleteMonster(_id)
       .then((response) => {
         if (response.status !== 202) {
           throw new Error("Error! Monster not deleted");
@@ -81,7 +84,7 @@ function MonsterPage() {
           <Monster
             key={monster._id}
             monster={monster}
-            updateMonster={handleUpdateMonster}
+            updateMonster={handleAddTraining}
             deleteMonster={handleDeleteMonster}
           />
         );
