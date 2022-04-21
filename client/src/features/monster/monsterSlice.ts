@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
-import { getMonsters } from "./monsterAPI";
 import { MonsterService } from "../../services/MonsterService";
 
 type Status = "idle" | "loading" | "failed";
@@ -41,16 +40,24 @@ export const monsterSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    // increment: (state) => {
-    //   // Redux Toolkit allows us to write "mutating" logic in reducers. It
-    //   // doesn't actually mutate the state because it uses the Immer library,
-    //   // which detects changes to a "draft state" and produces a brand new
-    //   // immutable state based off those changes
-    //   state.value += 1;
-    // },
-    // decrement: (state) => {
-    //   state.value -= 1;
-    // },
+    addMonster: (state, action: PayloadAction<IMonster>) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      state.monsters.push(action.payload);
+    },
+    updateMonster: (state, action: PayloadAction<IMonster>) => {
+      var index = state.monsters.findIndex(
+        (monster) => monster._id === action.payload._id
+      );
+      state.monsters.splice(index, 1, action.payload);
+    },
+    removeMonster: (state, action: PayloadAction<IMonster>) => {
+      state.monsters = state.monsters.filter(
+        (monster) => monster._id !== action.payload._id
+      );
+    },
     // Use the PayloadAction type to declare the contents of `action.payload`
     updateStatus: (state, action: PayloadAction<Status>) => {
       state.status = action.payload;
@@ -66,11 +73,15 @@ export const monsterSlice = createSlice({
       .addCase(getMonstersAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.monsters = action.payload.data;
+      })
+      .addCase(getMonstersAsync.rejected, (state, action) => {
+        state.status = "idle";
       });
   },
 });
 
-export const { updateStatus } = monsterSlice.actions;
+export const { updateStatus, addMonster, removeMonster, updateMonster } =
+  monsterSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

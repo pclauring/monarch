@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  getMonstersAsync,
-  selectMonsters,
-  addMonster,
-  removeMonster,
-  updateMonster,
-} from "./monsterSlice";
 import Monster from "./Monster";
 import CreateMonster from "./CreateMonster";
 import PixelPanel from "../pixelator/PixelPanel";
 import { MonsterService } from "../../services/MonsterService";
 
-function MonsterPage() {
-  const dispatch = useAppDispatch();
-  const reduxMonsters = useAppSelector(selectMonsters);
+function MonsterPageWithState() {
+  const [monsters, setMonsters] = useState<IMonster[]>([]);
   const baseUrl: string = "http://localhost:7000";
   const monsterService = new MonsterService(
     baseUrl,
@@ -22,8 +13,17 @@ function MonsterPage() {
   );
 
   useEffect(() => {
-    dispatch(getMonstersAsync());
+    fetchMonsters();
   }, []);
+
+  const fetchMonsters = (): void => {
+    monsterService
+      .getMonster()
+      .then(({ data }: IMonster[] | any) => {
+        setMonsters(data);
+      })
+      .catch((err: Error) => console.log(err));
+  };
 
   const handleCreateMonster = (
     e: React.FormEvent,
@@ -36,7 +36,7 @@ function MonsterPage() {
         if (data._id === undefined) {
           throw new Error("Error! Monster not created");
         }
-        dispatch(addMonster(data));
+        setMonsters(monsters.concat(data));
       })
       .catch((err) => console.log(err));
   };
@@ -48,7 +48,11 @@ function MonsterPage() {
         if (response.status !== 200) {
           throw new Error("Error! Monster not updated");
         }
-        dispatch(updateMonster(response.data));
+        setMonsters(
+          monsters.map((monster) =>
+            monster._id === response.data._id ? response.data : monster
+          )
+        );
       })
       .catch((err) => console.log(err));
   };
@@ -60,14 +64,16 @@ function MonsterPage() {
         if (response.status !== 202) {
           throw new Error("Error! Monster not deleted");
         }
-        dispatch(removeMonster(response.data));
+        setMonsters(
+          monsters.filter((monster) => monster._id !== response.data._id)
+        );
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <div>
-      {reduxMonsters.map((monster) => {
+      {monsters.map((monster) => {
         return (
           <Monster
             key={monster._id}
@@ -83,4 +89,4 @@ function MonsterPage() {
   );
 }
 
-export default MonsterPage;
+export default MonsterPageWithState;
