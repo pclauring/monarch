@@ -44,7 +44,7 @@ export const createMonsterAsync = createAsyncThunk(
   }
 );
 
-export const updateMonsterAsync = createAsyncThunk(
+export const addTrainingAsync = createAsyncThunk(
   "monster/updateMonster",
   async (monster: IMonster) => {
     const response = await monsterService.addTraining(monster);
@@ -108,10 +108,10 @@ export const monsterSlice = createSlice({
         state.status = "idle";
         state.monsters.push(action.payload.data);
       })
-      .addCase(updateMonsterAsync.pending, (state) => {
+      .addCase(addTrainingAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(updateMonsterAsync.fulfilled, (state, action) => {
+      .addCase(addTrainingAsync.fulfilled, (state, action) => {
         state.status = "idle";
         var index = state.monsters.findIndex(
           (monster) => monster._id === action.payload.data._id

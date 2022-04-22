@@ -4,27 +4,18 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   getMonstersByOwnerAsync,
   selectMonsters,
-  addMonster,
-  removeMonster,
-  updateMonster,
   createMonsterAsync,
-  updateMonsterAsync,
+  addTrainingAsync,
   deleteMonsterAsync,
 } from "./monsterSlice";
 import Monster from "./Monster";
 import CreateMonster from "./CreateMonster";
 import PixelPanel from "../pixelator/PixelPanel";
-import { MonsterService } from "../../services/MonsterService";
 
 function MonsterPage() {
   const { user } = useAuth0();
   const dispatch = useAppDispatch();
   const reduxMonsters = useAppSelector(selectMonsters);
-  const baseUrl: string = "http://localhost:7000";
-  const monsterService = new MonsterService(
-    baseUrl,
-    process.env.REACT_APP_AUTH0_AUDIENCE
-  );
 
   useEffect(() => {
     dispatch(getMonstersByOwnerAsync(user?.sub ? user?.sub : ""));
@@ -39,7 +30,7 @@ function MonsterPage() {
   };
 
   const handleAddTraining = (monster: IMonster): void => {
-    dispatch(updateMonsterAsync(monster));
+    dispatch(addTrainingAsync(monster));
   };
 
   const handleDeleteMonster = (_id: string): void => {
