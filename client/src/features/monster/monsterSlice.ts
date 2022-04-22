@@ -28,8 +28,8 @@ const monsterService = new MonsterService(
 // typically used to make async requests.
 export const getMonstersAsync = createAsyncThunk(
   "monster/getMonsters",
-  async () => {
-    const response = await monsterService.getMonster();
+  async (ownerId: string) => {
+    const response = await monsterService.getMonstersForUser(ownerId);
     // The value we return becomes the `fulfilled` action payload
     return response;
   }

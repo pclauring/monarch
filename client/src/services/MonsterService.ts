@@ -16,6 +16,10 @@ export class MonsterService implements IMonsterService {
     return this._axiosClient.get<IMonster[]>();
   }
 
+  getMonstersForUser(userId: string): Promise<AxiosResponse<IMonster[]>> {
+    return this._axiosClient.get<IMonster[]>(`?ownerId=${userId}`);
+  }
+
   public createMonster(monster: IMonster): Promise<AxiosResponse<IMonster>> {
     return this._axiosClient.post<IMonster>("", {
       data: monster,

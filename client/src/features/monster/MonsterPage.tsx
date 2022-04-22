@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   getMonstersAsync,
@@ -13,6 +14,7 @@ import PixelPanel from "../pixelator/PixelPanel";
 import { MonsterService } from "../../services/MonsterService";
 
 function MonsterPage() {
+  const { user } = useAuth0();
   const dispatch = useAppDispatch();
   const reduxMonsters = useAppSelector(selectMonsters);
   const baseUrl: string = "http://localhost:7000";
@@ -22,7 +24,7 @@ function MonsterPage() {
   );
 
   useEffect(() => {
-    dispatch(getMonstersAsync());
+    dispatch(getMonstersAsync(user?.sub ? user?.sub : ""));
   }, []);
 
   const handleCreateMonster = (
