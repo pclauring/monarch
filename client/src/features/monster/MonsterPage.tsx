@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
-  getMonstersAsync,
+  getMonstersByOwnerAsync,
   selectMonsters,
   addMonster,
   removeMonster,
   updateMonster,
+  createMonsterAsync,
+  updateMonsterAsync,
+  deleteMonsterAsync,
 } from "./monsterSlice";
 import Monster from "./Monster";
 import CreateMonster from "./CreateMonster";
@@ -24,7 +27,7 @@ function MonsterPage() {
   );
 
   useEffect(() => {
-    dispatch(getMonstersAsync(user?.sub ? user?.sub : ""));
+    dispatch(getMonstersByOwnerAsync(user?.sub ? user?.sub : ""));
   }, []);
 
   const handleCreateMonster = (
@@ -32,39 +35,15 @@ function MonsterPage() {
     formData: IMonster
   ): void => {
     e.preventDefault();
-    monsterService
-      .createMonster(formData)
-      .then(({ data }: IMonster | any) => {
-        if (data._id === undefined) {
-          throw new Error("Error! Monster not created");
-        }
-        dispatch(addMonster(data));
-      })
-      .catch((err) => console.log(err));
+    dispatch(createMonsterAsync(formData));
   };
 
   const handleAddTraining = (monster: IMonster): void => {
-    monsterService
-      .addTraining(monster)
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error("Error! Monster not updated");
-        }
-        dispatch(updateMonster(response.data));
-      })
-      .catch((err) => console.log(err));
+    dispatch(updateMonsterAsync(monster));
   };
 
   const handleDeleteMonster = (_id: string): void => {
-    monsterService
-      .deleteMonster(_id)
-      .then((response) => {
-        if (response.status !== 202) {
-          throw new Error("Error! Monster not deleted");
-        }
-        dispatch(removeMonster(response.data));
-      })
-      .catch((err) => console.log(err));
+    dispatch(deleteMonsterAsync(_id));
   };
 
   return (
