@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "../../app/store";
+import { RootState } from "../../app/store";
 import { MonsterService } from "../../services/MonsterService";
 
 type Status = "idle" | "loading" | "failed";

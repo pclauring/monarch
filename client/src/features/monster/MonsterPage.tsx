@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
@@ -19,7 +19,7 @@ function MonsterPage() {
 
   useEffect(() => {
     dispatch(getMonstersByOwnerAsync(user?.sub ? user?.sub : ""));
-  }, []);
+  });
 
   const handleCreateMonster = (
     e: React.FormEvent,
